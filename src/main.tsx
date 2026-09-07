@@ -17,8 +17,15 @@ async function bootstrap() {
   initTheme(config.features.glass)
 
   if (import.meta.env.DEV && import.meta.env.VITE_MSW === '1') {
-    const { startMocks } = await import('./api/mocks/browser')
-    await startMocks()
+    try {
+      const { startMocks } = await import('./api/mocks/browser')
+      await startMocks()
+    } catch (error) {
+      // A missing or unregistrable service worker must not stop the app booting. The
+      // requests the mocks would have answered simply reach the backend instead, which is
+      // a worse dev experience but a working one.
+      console.error('The request mocks could not start; requests will reach the backend.', error)
+    }
   }
 
   configureApiHandlers({

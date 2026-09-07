@@ -16,7 +16,8 @@ import {
  * When an endpoint lands for real, its handler is deleted in the same commit. A handler
  * that outlives its endpoint is a lie about what the backend does.
  */
-const base = () => runtimeConfig().apiBaseUrl.replace(/\/$/, '')
+// The operation paths already carry `/api/v1`; apiBaseUrl is only the prefix in front.
+const base = () => `${runtimeConfig().apiBaseUrl.replace(/\/$/, '')}/api/v1`
 
 const problem = (status: number, detail: string, code?: string): Problem => ({
   status,
@@ -27,25 +28,25 @@ const problem = (status: number, detail: string, code?: string): Problem => ({
 
 export const handlers = [
   // --- Identity (5.1) ---
-  http.get(`${base()}/v1/me`, () => HttpResponse.json(currentUser)),
+  http.get(`${base()}/me`, () => HttpResponse.json(currentUser)),
 
   // --- Platform (5.2) ---
-  http.get(`${base()}/v1/engine-capabilities`, () => HttpResponse.json(engineCapabilities)),
-  http.get(`${base()}/v1/bpmn-palette`, () => HttpResponse.json(bpmnPalette)),
+  http.get(`${base()}/engine-capabilities`, () => HttpResponse.json(engineCapabilities)),
+  http.get(`${base()}/bpmn-palette`, () => HttpResponse.json(bpmnPalette)),
 
   // --- Process instance detail (5.5) ---
-  http.get(`${base()}/v1/process-instances/:id/activities`, () => HttpResponse.json(activities)),
-  http.get(`${base()}/v1/process-instances/:id/variables`, () => HttpResponse.json(variables)),
+  http.get(`${base()}/process-instances/:id/activities`, () => HttpResponse.json(activities)),
+  http.get(`${base()}/process-instances/:id/variables`, () => HttpResponse.json(variables)),
 
   // --- Instance operations (5.6) ---
   http.post(
-    `${base()}/v1/process-instances/:id/cancel`,
+    `${base()}/process-instances/:id/cancel`,
     () => new HttpResponse(null, { status: 204 }),
   ),
-  http.delete(`${base()}/v1/process-instances/:id`, () => new HttpResponse(null, { status: 204 })),
+  http.delete(`${base()}/process-instances/:id`, () => new HttpResponse(null, { status: 204 })),
 
   // --- Tasks (5.7) ---
-  http.get(`${base()}/v1/tasks`, ({ request }) => {
+  http.get(`${base()}/tasks`, ({ request }) => {
     const url = new URL(request.url)
     const state = url.searchParams.get('state') ?? 'active'
     const assignment = url.searchParams.get('assignment') ?? 'any'
@@ -69,14 +70,14 @@ export const handlers = [
     })
   }),
 
-  http.get(`${base()}/v1/tasks/:id`, ({ params }) => {
+  http.get(`${base()}/tasks/:id`, ({ params }) => {
     const task = tasks.find((candidate) => candidate.id === params.id)
     return task
       ? HttpResponse.json(task)
       : HttpResponse.json(problem(404, 'No such task.'), { status: 404 })
   }),
 
-  http.get(`${base()}/v1/tasks/:id/form`, ({ params }) => {
+  http.get(`${base()}/tasks/:id/form`, ({ params }) => {
     const task = tasks.find((candidate) => candidate.id === params.id)
     if (!task) return HttpResponse.json(problem(404, 'No such task.'), { status: 404 })
     if (!task.formKey) {
@@ -111,21 +112,21 @@ export const handlers = [
     return HttpResponse.json(body)
   }),
 
-  http.post(`${base()}/v1/tasks/:id/claim`, ({ params }) => {
+  http.post(`${base()}/tasks/:id/claim`, ({ params }) => {
     const task = tasks.find((candidate) => candidate.id === params.id)
     if (!task) return HttpResponse.json(problem(404, 'No such task.'), { status: 404 })
     task.assignee = currentUser
     return HttpResponse.json(task)
   }),
 
-  http.post(`${base()}/v1/tasks/:id/unclaim`, ({ params }) => {
+  http.post(`${base()}/tasks/:id/unclaim`, ({ params }) => {
     const task = tasks.find((candidate) => candidate.id === params.id)
     if (!task) return HttpResponse.json(problem(404, 'No such task.'), { status: 404 })
     task.assignee = undefined
     return HttpResponse.json(task)
   }),
 
-  http.post(`${base()}/v1/tasks/:id/assign`, async ({ params, request }) => {
+  http.post(`${base()}/tasks/:id/assign`, async ({ params, request }) => {
     const task = tasks.find((candidate) => candidate.id === params.id)
     if (!task) return HttpResponse.json(problem(404, 'No such task.'), { status: 404 })
     const body = (await request.json()) as { userId: string }
@@ -133,7 +134,7 @@ export const handlers = [
     return HttpResponse.json(task)
   }),
 
-  http.post(`${base()}/v1/tasks/:id/complete`, ({ params }) => {
+  http.post(`${base()}/tasks/:id/complete`, ({ params }) => {
     const index = tasks.findIndex((candidate) => candidate.id === params.id)
     if (index >= 0) tasks.splice(index, 1)
     return new HttpResponse(null, { status: 204 })

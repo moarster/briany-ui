@@ -5,7 +5,13 @@ import { z } from 'zod'
  * not a build-time env var: one built image has to serve every environment.
  */
 export const runtimeConfigSchema = z.object({
-  apiBaseUrl: z.string().default('/api'),
+  /**
+   * Prefix prepended to the operation paths, which already carry `/api/v1` from the
+   * contract. Empty means same-origin, which is both the dev setup (Vite proxies `/api`
+   * to the engine) and the production one (single origin behind Traefik). Set it to an
+   * origin such as `https://api.briany.ru` for a split deployment.
+   */
+  apiBaseUrl: z.string().default(''),
   authMode: z.literal('basic').default('basic'),
   productName: z.string().default('Briany'),
   features: z

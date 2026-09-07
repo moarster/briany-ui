@@ -69,7 +69,7 @@ Runtime configuration lives in `public/config.json`, fetched once before the app
 
 ```json
 {
-  "apiBaseUrl": "/api",
+  "apiBaseUrl": "",
   "authMode": "basic",
   "productName": "Briany",
   "features": { "glass": true }
@@ -77,6 +77,11 @@ Runtime configuration lives in `public/config.json`, fetched once before the app
 ```
 
 It is deliberately not a build-time env var: one built image has to serve any environment.
+
+`apiBaseUrl` is a prefix, not the whole base: the operation paths already carry `/api/v1`
+from the contract. Empty means same-origin, which covers both dev (Vite proxies `/api` to
+the engine) and production (single origin behind Traefik). A split deployment sets it to an
+origin, for example `https://api.briany.ru`.
 
 Authentication is HTTP Basic against Flowable IDM, with our own login form. The credential
 is held in `sessionStorage` under a single key, so closing the tab drops it. Never

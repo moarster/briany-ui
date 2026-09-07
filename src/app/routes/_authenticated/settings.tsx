@@ -97,9 +97,10 @@ function SettingsPage() {
             <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-xs">
               <dt className="text-[var(--text-muted)]">Product</dt>
               <dd className="text-[var(--text-secondary)]">{config.productName}</dd>
-              <dt className="text-[var(--text-muted)]">API base URL</dt>
+              <dt className="text-[var(--text-muted)]">API</dt>
               <dd className="font-[family-name:var(--font-mono)] text-[var(--text-secondary)]">
-                {config.apiBaseUrl}
+                {/* An empty prefix means same-origin, which is the common deployment. */}
+                {config.apiBaseUrl === '' ? 'Same origin' : config.apiBaseUrl}
               </dd>
               <dt className="text-[var(--text-muted)]">Authentication</dt>
               <dd className="text-[var(--text-secondary)]">HTTP Basic against Flowable IDM</dd>
