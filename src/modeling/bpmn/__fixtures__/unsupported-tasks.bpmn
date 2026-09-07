@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:flowable="http://flowable.org/bpmn"
+             targetNamespace="http://briany.ru/processdef"
+             id="Definitions_unsupported">
+  <process id="unsupported" name="Unsupported" isExecutable="true">
+    <startEvent id="StartEvent_1" />
+    <scriptTask id="Script_1" name="Compute" scriptFormat="groovy" flowable:autoStoreVariables="false">
+      <script>execution.setVariable('a', 1)</script>
+    </scriptTask>
+    <serviceTask id="Shell_1" name="Run" flowable:type="shell">
+      <extensionElements>
+        <flowable:field name="command">
+          <flowable:string>ls</flowable:string>
+        </flowable:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Script_1" />
+    <sequenceFlow id="Flow_2" sourceRef="Script_1" targetRef="Shell_1" />
+  </process>
+</definitions>

@@ -1,0 +1,35 @@
+/* form-js, themed from tokens. Its own editor layout is kept - only the palette is ours. */
+
+@import '@bpmn-io/form-js/dist/assets/form-js.css';
+@import '@bpmn-io/form-js/dist/assets/form-js-editor.css';
+@import '@bpmn-io/form-js/dist/assets/properties-panel.css';
+
+.fjs-container {
+  --color-background: var(--surface-1);
+  --color-text: var(--text-primary);
+  --color-borders: var(--border-default);
+  --color-borders-input: var(--border-default);
+  --color-background-input: var(--surface-inset);
+  --color-text-light: var(--text-muted);
+  --color-blue-205-100-45: var(--color-primary);
+  --color-blue-205-100-50: var(--color-primary);
+  --color-blue-205-100-95: var(--color-primary-soft);
+  --color-red-360-100-45: var(--color-danger);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+.fjs-editor-container,
+.fjs-palette-container,
+.fjs-properties-container {
+  background: var(--surface-1);
+  border-color: var(--border-default);
+  color: var(--text-primary);
+}
+
+/* A form being authored is a working surface: opaque, never glass. */
+.fjs-form {
+  background: var(--surface-1);
+}

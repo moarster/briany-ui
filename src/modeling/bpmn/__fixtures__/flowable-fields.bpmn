@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:flowable="http://flowable.org/bpmn"
+             targetNamespace="http://briany.ru/processdef"
+             id="Definitions_fields">
+  <process id="fields" name="Fields" isExecutable="true">
+    <startEvent id="StartEvent_1" name="Start" />
+    <serviceTask id="Task_1" name="Store" flowable:delegateExpression="${kvDelegate}">
+      <extensionElements>
+        <flowable:field name="childString">
+          <flowable:string>literal</flowable:string>
+        </flowable:field>
+        <flowable:field name="childExpression">
+          <flowable:expression>${orderId}</flowable:expression>
+        </flowable:field>
+        <flowable:field name="attrString" stringValue="from-attribute" />
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_1" />
+  </process>
+</definitions>

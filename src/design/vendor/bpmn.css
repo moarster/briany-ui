@@ -1,0 +1,132 @@
+/*
+ * bpmn-js is a guest: it brings its own CSS and we theme it from here rather than
+ * fighting it inside components. Everything below resolves to a design token.
+ */
+
+@import 'bpmn-js/dist/assets/diagram-js.css';
+@import 'bpmn-js/dist/assets/bpmn-js.css';
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+@import '@bpmn-io/properties-panel/dist/assets/properties-panel.css';
+@import 'bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css';
+
+.bjs-container {
+  /* The canvas is a working surface: opaque, never glass. */
+  background: var(--surface-inset);
+  --canvas-fill-color: var(--surface-inset);
+  --color-grey-225-10-15: var(--text-primary);
+  --color-grey-225-10-35: var(--text-secondary);
+  --color-grey-225-10-55: var(--text-muted);
+  --color-grey-225-10-75: var(--border-strong);
+  --color-grey-225-10-80: var(--border-default);
+  --color-grey-225-10-85: var(--border-default);
+  --color-grey-225-10-90: var(--surface-2);
+  --color-grey-225-10-95: var(--surface-1);
+  --color-grey-225-10-97: var(--surface-1);
+  --color-blue-205-100-45: var(--color-primary);
+  --color-blue-205-100-50: var(--color-primary);
+  --color-blue-205-100-70: var(--color-primary-hover);
+  --color-blue-205-100-95: var(--color-primary-soft);
+  --color-green-360-100-45: var(--color-success);
+  --color-red-360-100-45: var(--color-danger);
+  --color-red-360-100-92: var(--color-danger-soft);
+  --color-white: var(--surface-1);
+  --color-black: var(--text-primary);
+}
+
+.djs-palette,
+.djs-context-pad .entry,
+.bjs-powered-by {
+  background: var(--surface-1);
+  border-color: var(--border-default);
+  color: var(--text-secondary);
+}
+
+.djs-palette .entry:hover,
+.djs-context-pad .entry:hover {
+  background: var(--surface-3);
+  color: var(--text-primary);
+}
+
+/* The HTTP task's globe glyph, so the palette entry reads the same as the canvas shape. */
+.djs-palette .entry.briany-http-task {
+  position: relative;
+}
+.djs-palette .entry.briany-http-task::after {
+  content: '';
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-info);
+}
+
+/* ---- Runtime decorations, applied by modeling/bpmn/overlays ---- */
+
+.djs-element.briany-completed .djs-visual > :nth-child(1) {
+  stroke: var(--color-primary) !important;
+  stroke-width: 2px !important;
+}
+
+.djs-element.briany-active .djs-visual > :nth-child(1) {
+  stroke: var(--color-accent) !important;
+  stroke-width: 3px !important;
+}
+
+.djs-element.briany-terminated .djs-visual > :nth-child(1) {
+  stroke: var(--text-muted) !important;
+  stroke-dasharray: 4 3 !important;
+}
+
+.djs-element.briany-selected .djs-visual > :nth-child(1) {
+  filter: drop-shadow(0 0 0 var(--color-accent));
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.briany-token-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent);
+  color: white;
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  box-shadow: var(--shadow-1);
+}
+
+/* ---- Properties panel ---- */
+
+.bio-properties-panel {
+  --bio-properties-panel-background-color: var(--surface-1);
+  --bio-properties-panel-text: var(--text-primary);
+  --bio-properties-panel-text-light: var(--text-muted);
+  --bio-properties-panel-border-color: var(--border-default);
+  --bio-properties-panel-group-background-color: var(--surface-1);
+  --bio-properties-panel-input-background-color: var(--surface-inset);
+  --bio-properties-panel-input-border-color: var(--border-default);
+  --bio-properties-panel-input-focus-border-color: var(--color-primary);
+  --bio-properties-panel-input-focus-background-color: var(--surface-inset);
+  --bio-properties-panel-placeholder-color: var(--text-muted);
+  --bio-properties-panel-header-background-color: var(--surface-2);
+  --bio-properties-panel-dropdown-background-color: var(--surface-2);
+  --bio-properties-panel-error: var(--color-danger);
+  --bio-properties-panel-warning: var(--color-warning);
+  --bio-properties-panel-blue-base-65: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+}
+
+.briany-panel-notice {
+  margin: 0;
+  padding: var(--space-4);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}

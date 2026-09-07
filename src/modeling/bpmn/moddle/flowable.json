@@ -1,0 +1,164 @@
+{
+  "name": "Flowable",
+  "uri": "http://flowable.org/bpmn",
+  "prefix": "flowable",
+  "xml": { "tagAlias": "lowerCase" },
+  "associations": [],
+  "types": [
+    {
+      "name": "Process",
+      "isAbstract": true,
+      "extends": ["bpmn:Process"],
+      "properties": [
+        { "name": "candidateStarterUsers", "isAttr": true, "type": "String" },
+        { "name": "candidateStarterGroups", "isAttr": true, "type": "String" },
+        { "name": "history", "isAttr": true, "type": "String" }
+      ]
+    },
+    {
+      "name": "StartEventFlowableProperties",
+      "isAbstract": true,
+      "extends": ["bpmn:StartEvent"],
+      "properties": [
+        { "name": "initiator", "isAttr": true, "type": "String" },
+        { "name": "formKey", "isAttr": true, "type": "String" },
+        { "name": "formFieldValidation", "isAttr": true, "type": "Boolean" }
+      ]
+    },
+    {
+      "name": "UserTaskFlowableProperties",
+      "isAbstract": true,
+      "extends": ["bpmn:UserTask"],
+      "properties": [
+        { "name": "assignee", "isAttr": true, "type": "String" },
+        { "name": "candidateUsers", "isAttr": true, "type": "String" },
+        { "name": "candidateGroups", "isAttr": true, "type": "String" },
+        { "name": "dueDate", "isAttr": true, "type": "String" },
+        { "name": "priority", "isAttr": true, "type": "String" },
+        { "name": "formKey", "isAttr": true, "type": "String" },
+        { "name": "formFieldValidation", "isAttr": true, "type": "Boolean" },
+        { "name": "businessCalendarName", "isAttr": true, "type": "String" },
+        { "name": "taskIdVariableName", "isAttr": true, "type": "String" }
+      ]
+    },
+    {
+      "name": "ServiceTaskFlowableProperties",
+      "isAbstract": true,
+      "extends": ["bpmn:ServiceTask", "bpmn:SendTask"],
+      "properties": [
+        { "name": "class", "isAttr": true, "type": "String" },
+        { "name": "type", "isAttr": true, "type": "String" },
+        { "name": "expression", "isAttr": true, "type": "String" },
+        { "name": "delegateExpression", "isAttr": true, "type": "String" },
+        { "name": "resultVariableName", "isAttr": true, "type": "String" },
+        { "name": "skipExpression", "isAttr": true, "type": "String" },
+        { "name": "triggerable", "isAttr": true, "type": "Boolean" },
+        { "name": "useLocalScopeForResultVariable", "isAttr": true, "type": "Boolean" },
+        { "name": "storeResultVariableAsTransient", "isAttr": true, "type": "Boolean" }
+      ]
+    },
+    {
+      "name": "CallActivityFlowableProperties",
+      "isAbstract": true,
+      "extends": ["bpmn:CallActivity"],
+      "properties": [
+        { "name": "calledElementType", "isAttr": true, "type": "String" },
+        { "name": "businessKey", "isAttr": true, "type": "String" },
+        { "name": "inheritBusinessKey", "isAttr": true, "type": "Boolean" },
+        { "name": "sameDeployment", "isAttr": true, "type": "Boolean" },
+        { "name": "fallbackToDefaultTenant", "isAttr": true, "type": "Boolean" }
+      ]
+    },
+    {
+      "name": "ActivityFlowableProperties",
+      "isAbstract": true,
+      "extends": ["bpmn:Activity"],
+      "properties": [
+        { "name": "async", "isAttr": true, "type": "Boolean" },
+        { "name": "exclusive", "isAttr": true, "type": "Boolean", "default": true },
+        { "name": "asyncLeave", "isAttr": true, "type": "Boolean" },
+        { "name": "asyncLeaveExclusive", "isAttr": true, "type": "Boolean", "default": true }
+      ]
+    },
+    {
+      "name": "MultiInstanceLoopCharacteristicsFlowableProperties",
+      "isAbstract": true,
+      "extends": ["bpmn:MultiInstanceLoopCharacteristics"],
+      "properties": [
+        { "name": "collection", "isAttr": true, "type": "String" },
+        { "name": "elementVariable", "isAttr": true, "type": "String" },
+        { "name": "elementIndexVariable", "isAttr": true, "type": "String" }
+      ]
+    },
+
+    {
+      "name": "Field",
+      "superClass": ["Element"],
+      "meta": {
+        "allowedIn": [
+          "bpmn:ServiceTask",
+          "bpmn:SendTask",
+          "flowable:ExecutionListener",
+          "flowable:TaskListener"
+        ]
+      },
+      "properties": [
+        { "name": "name", "isAttr": true, "type": "String" },
+        { "name": "stringValue", "isAttr": true, "type": "String" },
+        { "name": "string", "type": "String" },
+        { "name": "expression", "type": "String" }
+      ]
+    },
+    {
+      "name": "ExecutionListener",
+      "superClass": ["Element"],
+      "meta": { "allowedIn": ["*"] },
+      "properties": [
+        { "name": "event", "isAttr": true, "type": "String" },
+        { "name": "class", "isAttr": true, "type": "String" },
+        { "name": "expression", "isAttr": true, "type": "String" },
+        { "name": "delegateExpression", "isAttr": true, "type": "String" },
+        { "name": "fields", "type": "Field", "isMany": true }
+      ]
+    },
+    {
+      "name": "TaskListener",
+      "superClass": ["Element"],
+      "meta": { "allowedIn": ["bpmn:UserTask"] },
+      "properties": [
+        { "name": "event", "isAttr": true, "type": "String" },
+        { "name": "class", "isAttr": true, "type": "String" },
+        { "name": "expression", "isAttr": true, "type": "String" },
+        { "name": "delegateExpression", "isAttr": true, "type": "String" },
+        { "name": "fields", "type": "Field", "isMany": true }
+      ]
+    },
+    {
+      "name": "In",
+      "superClass": ["Element"],
+      "meta": { "allowedIn": ["bpmn:CallActivity"] },
+      "properties": [
+        { "name": "source", "isAttr": true, "type": "String" },
+        { "name": "sourceExpression", "isAttr": true, "type": "String" },
+        { "name": "target", "isAttr": true, "type": "String" }
+      ]
+    },
+    {
+      "name": "Out",
+      "superClass": ["Element"],
+      "meta": { "allowedIn": ["bpmn:CallActivity"] },
+      "properties": [
+        { "name": "source", "isAttr": true, "type": "String" },
+        { "name": "sourceExpression", "isAttr": true, "type": "String" },
+        { "name": "target", "isAttr": true, "type": "String" }
+      ]
+    },
+    {
+      "name": "FailedJobRetryTimeCycle",
+      "superClass": ["Element"],
+      "meta": { "allowedIn": ["*"] },
+      "properties": [{ "name": "body", "isBody": true, "type": "String" }]
+    }
+  ],
+  "emumerations": []
+}

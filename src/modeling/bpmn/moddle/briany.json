@@ -1,0 +1,19 @@
+{
+  "name": "Briany",
+  "uri": "http://briany.ru/bpmn",
+  "prefix": "briany",
+  "xml": { "tagAlias": "lowerCase" },
+  "associations": [],
+  "types": [
+    {
+      "name": "BaseElementBrianyProperties",
+      "isAbstract": true,
+      "extends": ["bpmn:BaseElement"],
+      "properties": [
+        { "name": "descriptorId", "isAttr": true, "type": "String" },
+        { "name": "descriptorVersion", "isAttr": true, "type": "Integer" }
+      ]
+    }
+  ],
+  "emumerations": []
+}

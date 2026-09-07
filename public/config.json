@@ -1,0 +1,6 @@
+{
+  "apiBaseUrl": "/api",
+  "authMode": "basic",
+  "productName": "Briany",
+  "features": { "glass": true }
+}

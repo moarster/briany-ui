@@ -1,0 +1,205 @@
+/*
+ * Every colour, radius, spacing step and duration in this application is defined here.
+ * Nothing outside this file may hardcode a colour, a radius or a spacing value.
+ *
+ * Dark is the default, so `:root` carries the dark values and `[data-theme='light']`
+ * overrides them. `prefers-color-scheme` is honoured only until the user expresses a
+ * preference, which `applyTheme()` in src/lib/theme.ts stamps onto the root element.
+ */
+
+:root {
+  /* ---- Teal (primary): brand, primary actions, selection, completed paths ---- */
+  --teal-50: oklch(97.6% 0.017 183); /* #eefbf8 */
+  --teal-100: oklch(94.4% 0.036 180); /* #d3f5ef */
+  --teal-200: oklch(88.4% 0.07 181); /* #a9ebe1 */
+  --teal-300: oklch(81.4% 0.099 182); /* #74dccf */
+  --teal-400: oklch(73% 0.113 184); /* #3cc4b7 */
+  --teal-500: oklch(65% 0.104 186); /* #1fa99e */
+  --teal-600: oklch(54.4% 0.087 187); /* #14887f */
+  --teal-700: oklch(45.4% 0.07 188); /* #136c67 */
+  --teal-800: oklch(38% 0.055 187); /* #145653 */
+  --teal-900: oklch(32.6% 0.045 186); /* #144745 */
+  --teal-950: oklch(21.5% 0.036 187); /* #042a2a */
+
+  /* ---- Cinnabar (accent): active runtime tokens, focus emphasis ---- */
+  --cinnabar-50: oklch(97.2% 0.013 25); /* #fef3f2 */
+  --cinnabar-100: oklch(93.4% 0.028 22); /* #ffe3e0 */
+  --cinnabar-200: oklch(88% 0.055 21); /* #ffccc7 */
+  --cinnabar-300: oklch(79.6% 0.096 24); /* #ffa89f */
+  --cinnabar-400: oklch(69.6% 0.156 28); /* #fd7566 */
+  --cinnabar-500: oklch(62% 0.191 31); /* #f04a35 */
+  --cinnabar-600: oklch(57.6% 0.184 31); /* #e34234 */
+  --cinnabar-700: oklch(48.4% 0.174 32); /* #bb2718 */
+  --cinnabar-800: oklch(42.2% 0.15 31); /* #9a2418 */
+  --cinnabar-900: oklch(37.4% 0.122 29); /* #80241b */
+  --cinnabar-950: oklch(24.6% 0.098 32); /* #461009 */
+
+  /*
+   * Neutrals: a 12-step slate hue-shifted toward the primary, so greys read as part of
+   * the palette rather than as a second, colder one.
+   */
+  --slate-0: oklch(99% 0.002 190);
+  --slate-50: oklch(97.2% 0.004 190);
+  --slate-100: oklch(94.2% 0.006 190);
+  --slate-200: oklch(89% 0.008 190);
+  --slate-300: oklch(81.4% 0.01 190);
+  --slate-400: oklch(69.6% 0.012 190);
+  --slate-500: oklch(58.4% 0.014 190);
+  --slate-600: oklch(48% 0.014 191);
+  --slate-700: oklch(38.4% 0.014 192);
+  --slate-800: oklch(29.4% 0.013 193);
+  --slate-900: oklch(22.6% 0.012 194);
+  --slate-950: oklch(17% 0.011 195);
+  --slate-1000: oklch(13.2% 0.01 196);
+
+  /*
+   * Semantic colours. Danger is rose, not cinnabar: the accent is a warm red-orange and
+   * an alarm in the same hue family would be indistinguishable at chip size.
+   */
+  --color-success: oklch(59.6% 0.13 163); /* emerald-600 #059669 */
+  --color-warning: oklch(76.9% 0.166 70); /* amber-500   #f59e0b */
+  --color-danger: oklch(58.6% 0.222 12); /* rose-600    #e11d48 */
+  --color-info: oklch(70.4% 0.146 233); /* sky-500     #0ea5e9 */
+  --color-primary: var(--teal-500);
+  --color-primary-hover: var(--teal-400);
+  --color-primary-active: var(--teal-600);
+  --color-accent: var(--cinnabar-500);
+
+  --color-success-soft: color-mix(in oklab, var(--color-success) 18%, transparent);
+  --color-warning-soft: color-mix(in oklab, var(--color-warning) 18%, transparent);
+  --color-danger-soft: color-mix(in oklab, var(--color-danger) 18%, transparent);
+  --color-info-soft: color-mix(in oklab, var(--color-info) 18%, transparent);
+  --color-primary-soft: color-mix(in oklab, var(--color-primary) 18%, transparent);
+  --color-accent-soft: color-mix(in oklab, var(--color-accent) 18%, transparent);
+
+  /* ---- File type identity. Never encodes state, only what kind of file this is. ---- */
+  --type-process: var(--teal-400);
+  --type-decision: oklch(66% 0.16 300);
+  --type-form: var(--color-warning);
+
+  /* ---- Surfaces (dark, the default) ---- */
+  --surface-0: var(--slate-1000);
+  --surface-1: var(--slate-950);
+  --surface-2: var(--slate-900);
+  --surface-3: var(--slate-800);
+  --surface-inset: oklch(11% 0.01 196);
+
+  --border-subtle: oklch(from var(--slate-800) l c h / 0.7);
+  --border-default: var(--slate-800);
+  --border-strong: var(--slate-700);
+
+  --text-primary: var(--slate-100);
+  --text-secondary: var(--slate-300);
+  --text-muted: var(--slate-500);
+  --text-inverse: var(--slate-1000);
+  --text-on-primary: oklch(15% 0.02 190);
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-2: 0 4px 12px -2px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.3);
+  --shadow-3: 0 16px 40px -8px rgb(0 0 0 / 0.6), 0 2px 8px rgb(0 0 0 / 0.4);
+
+  /* ---- Liquid glass ---- */
+  --glass-bg: color-mix(in oklab, var(--surface-1) 62%, transparent);
+  --glass-blur: 20px;
+  --glass-saturate: 1.6;
+  --glass-border: color-mix(in oklab, var(--text-primary) 12%, transparent);
+  --glass-shadow: 0 8px 32px -8px rgb(0 0 0 / 0.45);
+  --glass-highlight: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 14%, transparent) 0%,
+    transparent 40%
+  );
+
+  /* ---- Typography ---- */
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  --text-2xs: 0.6875rem; /* 11 */
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.8125rem; /* 13, base */
+  --text-md: 0.9375rem; /* 15 */
+  --text-lg: 1.125rem; /* 18 */
+  --text-xl: 1.375rem; /* 22 */
+  --text-2xl: 1.75rem; /* 28 */
+  --leading-body: 1.45;
+  --leading-heading: 1.25;
+
+  /* ---- Shape ---- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* ---- Spacing, on a 4px grid ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ---- Density ---- */
+  --row-height: 34px;
+  --control-height-sm: 26px;
+  --control-height-md: 30px;
+  --control-height-lg: 36px;
+
+  /* ---- Motion ---- */
+  --duration-1: 120ms;
+  --duration-2: 180ms;
+  --duration-3: 240ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --z-sticky: 10;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+}
+
+[data-theme='light'] {
+  --surface-0: var(--slate-50);
+  --surface-1: var(--slate-0);
+  --surface-2: var(--slate-0);
+  --surface-3: var(--slate-0);
+  --surface-inset: var(--slate-100);
+
+  --border-subtle: var(--slate-100);
+  --border-default: var(--slate-200);
+  --border-strong: var(--slate-300);
+
+  --text-primary: var(--slate-900);
+  --text-secondary: var(--slate-700);
+  --text-muted: var(--slate-500);
+  --text-inverse: var(--slate-0);
+  --text-on-primary: oklch(99% 0 0);
+
+  /* The 500 steps do not reach AA on a white ground at 13px; drop one step in light. */
+  --color-primary: var(--teal-600);
+  --color-primary-hover: var(--teal-700);
+  --color-primary-active: var(--teal-800);
+  --color-accent: var(--cinnabar-600);
+  --color-success: oklch(52.4% 0.118 163);
+  --color-warning: oklch(63% 0.15 62);
+  --color-danger: oklch(52% 0.212 15);
+  --color-info: oklch(56.6% 0.152 240);
+
+  --type-process: var(--teal-700);
+  --type-decision: oklch(48% 0.18 300);
+  --type-form: oklch(58% 0.14 62);
+
+  --shadow-1: 0 1px 2px rgb(15 30 32 / 0.06);
+  --shadow-2: 0 4px 12px -2px rgb(15 30 32 / 0.1), 0 1px 3px rgb(15 30 32 / 0.06);
+  --shadow-3: 0 16px 40px -8px rgb(15 30 32 / 0.16), 0 2px 8px rgb(15 30 32 / 0.08);
+
+  --glass-bg: color-mix(in oklab, var(--surface-1) 70%, transparent);
+  --glass-border: color-mix(in oklab, var(--text-primary) 10%, transparent);
+  --glass-shadow: 0 8px 32px -8px rgb(15 30 32 / 0.18);
+  --glass-highlight: linear-gradient(
+    180deg,
+    color-mix(in oklab, white 55%, transparent) 0%,
+    transparent 40%
+  );
+}

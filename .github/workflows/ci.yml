@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The contract is a submodule and codegen reads it, so a shallow checkout
+          # without it would let the committed client drift unnoticed.
+          submodules: true
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Fails when the committed client no longer matches the contract submodule.
+      - name: Contract drift
+        run: pnpm api:check
+
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm typecheck
+      - run: pnpm test
+
+      # The script and shell exclusion is a product invariant, not a setting. Any authoring
+      # surface for one is a build failure, wherever it appears outside the two files that
+      # are allowed to name them.
+      - name: No script or shell task authoring surface
+        run: ./scripts/check-no-script-tasks.sh
+
+      # The API boundary, the fetch boundary and the token boundary.
+      - name: Architectural boundaries
+        run: ./scripts/check-architecture.sh
+
+      - run: pnpm build
+
+      # PROMPT section 11: initial JS under 250KB gzipped, excluding the modelers.
+      - name: Bundle budget
+        run: ./scripts/check-bundle-budget.sh
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: verify
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+
+      # Against the mock build until the section 5 endpoints land in the backend.
+      - run: pnpm test:e2e
+        env:
+          VITE_MSW: '1'
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

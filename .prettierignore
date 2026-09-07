@@ -1,0 +1,9 @@
+src/routeTree.gen.ts
+src/api/generated
+contract
+dist
+pnpm-lock.yaml
+
+# The build spec and the brief are inputs, not source we format.
+PROMPT.md
+INIT.md

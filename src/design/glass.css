@@ -1,0 +1,66 @@
+/*
+ * Liquid glass. Scope: sidebar, top bar, command palette, dialogs, popovers, toasts,
+ * floating editor toolbars, application tiles. Nothing else - tables, diagram canvases,
+ * forms and code editors stay opaque, because a working surface has to be readable
+ * against whatever happens to be behind it.
+ */
+
+.glass {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  isolation: isolate;
+}
+
+/* The specular top edge that makes the surface read as glass rather than as a scrim. */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--glass-highlight);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Glass inside glass compounds the blur into mud and costs a second backdrop pass. */
+.glass .glass {
+  background: var(--surface-2);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ---- The three mandatory escape hatches ---- */
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass {
+    background: var(--surface-1);
+  }
+  .glass::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--surface-1);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .glass::before {
+    display: none;
+  }
+}
+
+html[data-glass='off'] .glass {
+  background: var(--surface-1);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-glass='off'] .glass::before {
+  display: none;
+}

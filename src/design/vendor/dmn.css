@@ -1,0 +1,38 @@
+/* dmn-js, themed from tokens the same way bpmn-js is. */
+
+@import 'dmn-js/dist/assets/diagram-js.css';
+@import 'dmn-js/dist/assets/dmn-js-shared.css';
+@import 'dmn-js/dist/assets/dmn-js-drd.css';
+@import 'dmn-js/dist/assets/dmn-js-decision-table.css';
+@import 'dmn-js/dist/assets/dmn-js-decision-table-controls.css';
+@import 'dmn-js/dist/assets/dmn-js-literal-expression.css';
+@import 'dmn-js/dist/assets/dmn-font/css/dmn.css';
+@import 'dmn-js-properties-panel/dist/assets/properties-panel.css';
+
+.dmn-js-parent {
+  background: var(--surface-inset);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+}
+
+.dmn-decision-table-container,
+.tjs-container {
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+.tjs-table th,
+.tjs-table td {
+  border-color: var(--border-default);
+}
+
+.tjs-table th {
+  background: var(--surface-2);
+  color: var(--text-secondary);
+}
+
+.dmn-definitions {
+  background: var(--surface-1);
+  border-color: var(--border-default);
+}

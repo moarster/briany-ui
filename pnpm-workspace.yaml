@@ -1,0 +1,12 @@
+allowBuilds:
+  '@carbon/grid': set this to true or false
+  '@carbon/layout': set this to true or false
+  esbuild: set this to true or false
+  inferno: set this to true or false
+  msw: set this to true or false
+onlyBuiltDependencies:
+  - '@carbon/grid'
+  - '@carbon/layout'
+  - esbuild
+  - inferno
+  - msw

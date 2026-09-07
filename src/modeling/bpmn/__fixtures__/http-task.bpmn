@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:flowable="http://flowable.org/bpmn"
+             xmlns:briany="http://briany.ru/bpmn"
+             targetNamespace="http://briany.ru/processdef"
+             id="Definitions_http">
+  <process id="http" name="HTTP" isExecutable="true">
+    <startEvent id="StartEvent_1" />
+    <serviceTask id="Http_1" name="Call" flowable:type="http" briany:descriptorId="kv-task" briany:descriptorVersion="1">
+      <extensionElements>
+        <flowable:field name="requestMethod">
+          <flowable:string>POST</flowable:string>
+        </flowable:field>
+        <flowable:field name="requestUrl">
+          <flowable:string>https://example.invalid/orders</flowable:string>
+        </flowable:field>
+      </extensionElements>
+    </serviceTask>
+    <userTask id="Approve_1" name="Approve" flowable:formKey="approveForm" flowable:candidateGroups="managers" />
+    <sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Http_1" />
+    <sequenceFlow id="Flow_2" sourceRef="Http_1" targetRef="Approve_1" />
+  </process>
+</definitions>
